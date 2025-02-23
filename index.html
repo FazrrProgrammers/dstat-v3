@@ -1,10 +1,11 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Counter</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,21 +18,36 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #1e1e1e, #ff0000);
-            font-family: 'Poppins', sans-serif;
-            color: white;
+            background: radial-gradient(circle, #001f3f, #000000);
+            font-family: 'Orbitron', sans-serif;
+            color: cyan;
             text-align: center;
+            position: relative;
         }
         .container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 0.1);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.3);
             width: 80%;
             max-width: 600px;
             animation: fadeIn 1.2s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5em;
+            font-weight: bold;
+            color: cyan;
+            text-shadow: 0 0 20px cyan;
+            z-index: 1;
+            opacity: 0.2;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -40,6 +56,7 @@
         h1 {
             font-size: 2.5em;
             font-weight: 700;
+            text-shadow: 0 0 10px cyan;
         }
         p {
             font-size: 1.2em;
@@ -54,6 +71,7 @@
     </style>
 </head>
 <body>
+    <div class="center-text">FAZRRINDONESIA</div>
     <div class="container">
         <h1>Request Counter</h1>
         <p>Live request count updates</p>
@@ -69,40 +87,41 @@
                 },
                 title: {
                     text: 'Requests Per Second',
-                    style: { color: 'white' }
+                    style: { color: 'cyan' }
                 },
                 xAxis: {
                     type: 'datetime',
                     tickPixelInterval: 150,
-                    labels: { style: { color: 'white' } }
+                    labels: { style: { color: 'cyan' } }
                 },
                 yAxis: {
-                    title: { text: 'Requests', style: { color: 'white' } },
+                    title: { text: 'Requests', style: { color: 'cyan' } },
                     min: 0,
-                    labels: { style: { color: 'white' } },
-                    gridLineColor: 'rgba(255,255,255,0.2)'
+                    labels: { style: { color: 'cyan' } },
+                    gridLineColor: 'rgba(0,255,255,0.2)'
                 },
                 legend: { enabled: false },
                 series: [{
                     name: 'Requests',
                     data: [],
-                    color: '#ff4444'
+                    color: 'cyan'
                 }],
                 credits: { enabled: false }
-            });function updateChart() {
-            fetch('/api/request-count')
-                .then(res => res.json())
-                .then(data => {
-                    let x = (new Date()).getTime();
-                    let y = data.requestCount;
-                    chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 20);
-                })
-                .catch(err => console.error("Fetch error:", err));
-        }
+            });
 
-        setInterval(updateChart, 1000);
-    });
-</script>
+            function updateChart() {
+                fetch('/api/request-count')
+                    .then(res => res.json())
+                    .then(data => {
+                        let x = (new Date()).getTime();
+                        let y = data.requestCount;
+                        chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 20);
+                    })
+                    .catch(err => console.error("Fetch error:", err));
+            }
 
+            setInterval(updateChart, 1000);
+        });
+    </script>
 </body>
 </html>
