@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Counter</title>
+    <title>FazrrIndonesia - Request Counter</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
@@ -12,19 +12,19 @@
             box-sizing: border-box;
         }
         body {
+            background: #0d0d0d;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #0d0d0d;
-            font-family: 'Orbitron', sans-serif;
-            color: white;
-            text-align: center;
         }
         .container {
             background: #111;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
             width: 90%;
@@ -37,7 +37,7 @@
             margin-bottom: 20px;
         }
         .btn {
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -49,9 +49,15 @@
         .btn.blue { background: #007bff; color: white; }
         .btn.gray { background: #444; color: white; }
         .btn:hover { opacity: 0.8; }
-        h1 {
-            font-size: 1.8em;
-            color: white;
+        .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 0.9em;
+            color: #bbb;
+            margin-bottom: 15px;
         }
         #chart-container {
             width: 100%;
@@ -61,12 +67,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>CloudFlare Business (Skip + HTTP-DDoS Essentially off)</h1>
-        <p>https://fazrrindonesia.online/hit</p>
+        <div class="title">CloudFlare Business (Skip + HTTP-DDoS Essentially off)</div>
+        <div class="subtitle">https://dstat-v3.vercel.app/api/request-count</div>
         <div class="button-group">
             <button class="btn red">Copy URL</button>
             <button class="btn blue">WHOIS</button>
-            <button class="btn gray">HTTP-CHECK</button>
+            <a href="https://check-host.net/check-http?host=https://dstat-v3.vercel.app/api/request-count" class="btn gray" target="_blank">HTTP-CHECK</a>
         </div>
         <div id="chart-container"></div>
     </div>
