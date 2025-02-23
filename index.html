@@ -93,44 +93,53 @@
         <div id="chart-container"></div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let chart = Highcharts.chart('chart-container', {
-                chart: {
-                    type: 'area',
-                    backgroundColor: 'transparent',
-                    animation: Highcharts.svg,
-                },
-                title: { text: '', style: { color: 'white' } },
-                xAxis: {
-                    type: 'datetime',
-                    tickPixelInterval: 150,
-                    labels: { style: { color: 'white' } }
-                },
-                yAxis: {
-                    title: { text: 'Values', style: { color: 'white' } },
-                    min: 0,
-                    labels: { style: { color: 'white' } },
-                    gridLineColor: 'rgba(255,255,255,0.2)'
-                },
-                legend: { enabled: false },
-                series: [{
-                    name: 'Requests',
-                    data: [],
-                    color: 'red',
-                    fillOpacity: 0.2
-                }],
-                credits: { enabled: false }
+        function copyToClipboard() {
+            const url = "https://dstat-v3.vercel.app/api/request-count";
+            navigator.clipboard.writeText(url).then(() => {
+                alert("URL copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
             });
-            function updateChart() {
-                fetch('/api/request-count')
-                    .then(res => res.json())
-                    .then(data => {
-                        let x = (new Date()).getTime();
-                        let y = data.requestCount;
-                        chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 30);
-                    })
-                    .catch(err => console.error("Fetch error:", err));
-            }setInterval(updateChart, 1000);
+        }document.addEventListener("DOMContentLoaded", function () {
+        let chart = Highcharts.chart('chart-container', {
+            chart: {
+                type: 'area',
+                backgroundColor: 'transparent',
+                animation: Highcharts.svg,
+            },
+            title: { text: '', style: { color: 'white' } },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,
+                labels: { style: { color: 'white' } }
+            },
+            yAxis: {
+                title: { text: 'Values', style: { color: 'white' } },
+                min: 0,
+                labels: { style: { color: 'white' } },
+                gridLineColor: 'rgba(255,255,255,0.2)'
+            },
+            legend: { enabled: false },
+            series: [{
+                name: 'Requests',
+                data: [],
+                color: 'red',
+                fillOpacity: 0.2
+            }],
+            credits: { enabled: false }
+        });
+        function updateChart() {
+            fetch('/api/request-count')
+                .then(res => res.json())
+                .then(data => {
+                    let x = (new Date()).getTime();
+                    let y = data.requestCount;
+                    chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 30);
+                })
+                .catch(err => console.error("Fetch error:", err));
+        }
+
+        setInterval(updateChart, 1000);
     });
 </script>
 
