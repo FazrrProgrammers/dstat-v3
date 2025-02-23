@@ -67,7 +67,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="title">CloudFlare Business (Skip + HTTP-DDoS Essentially off)</div>
+        <div class="title">Varcel Dstat Request count Check</div>
         <div class="subtitle">https://dstat-v3.vercel.app/api/request-count</div>
         <div class="button-group">
             <button class="btn red" onclick="copyToClipboard()">Copy URL</button>
@@ -119,11 +119,5 @@
     });
 </script>
 
-<script>
-function copyToClipboard() {
-    navigator.clipboard.writeText("https://dstat-v3.vercel.app/api/request-count")
-        .then(() => alert("URL copied to clipboard!"))
-        .catch(err => console.error("Error copying URL:", err));
-}
-</script></body>
+</body>
 </html>
