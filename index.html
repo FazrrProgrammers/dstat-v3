@@ -70,8 +70,8 @@
         <div class="title">CloudFlare Business (Skip + HTTP-DDoS Essentially off)</div>
         <div class="subtitle">https://dstat-v3.vercel.app/api/request-count</div>
         <div class="button-group">
-            <button class="btn red">Copy URL</button>
-            <button class="btn blue">WHOIS</button>
+            <button class="btn red" onclick="copyToClipboard()">Copy URL</button>
+            <a href="https://check-host.net/check-http?host=https://dstat-v3.vercel.app/api/request-count" class="btn blue" target="_blank">WHOIS</a>
             <a href="https://check-host.net/check-http?host=https://dstat-v3.vercel.app/api/request-count" class="btn gray" target="_blank">HTTP-CHECK</a>
         </div>
         <div id="chart-container"></div>
@@ -119,5 +119,11 @@
     });
 </script>
 
-</body>
+<script>
+function copyToClipboard() {
+    navigator.clipboard.writeText("https://dstat-v3.vercel.app/api/request-count")
+        .then(() => alert("URL copied to clipboard!"))
+        .catch(err => console.error("Error copying URL:", err));
+}
+</script></body>
 </html>
