@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,110 +17,101 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: radial-gradient(circle, #001f3f, #000000);
+            background: #0d0d0d;
             font-family: 'Orbitron', sans-serif;
-            color: cyan;
+            color: white;
             text-align: center;
-            position: relative;
         }
         .container {
-            background: rgba(0, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            width: 80%;
-            max-width: 600px;
-            animation: fadeIn 1.2s ease-in-out;
-            position: relative;
-            z-index: 2;
+            background: #111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            width: 90%;
+            max-width: 700px;
         }
-        .center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 5em;
-            font-weight: bold;
-            color: cyan;
-            text-shadow: 0 0 20px cyan;
-            z-index: 1;
-            opacity: 0.2;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            text-shadow: 0 0 10px cyan;
-        }
-        p {
-            font-size: 1.2em;
-            font-weight: 300;
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn.red { background: #d10000; color: white; }
+        .btn.blue { background: #007bff; color: white; }
+        .btn.gray { background: #444; color: white; }
+        .btn:hover { opacity: 0.8; }
+        h1 {
+            font-size: 1.8em;
+            color: white;
         }
         #chart-container {
             width: 100%;
             height: 350px;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="center-text">FAZRRINDONESIA</div>
     <div class="container">
-        <h1>Request Counter</h1>
-        <p>Live request count updates</p>
+        <h1>CloudFlare Business (Skip + HTTP-DDoS Essentially off)</h1>
+        <p>https://fazrrindonesia.online/hit</p>
+        <div class="button-group">
+            <button class="btn red">Copy URL</button>
+            <button class="btn blue">WHOIS</button>
+            <button class="btn gray">HTTP-CHECK</button>
+        </div>
         <div id="chart-container"></div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let chart = Highcharts.chart('chart-container', {
                 chart: {
-                    type: 'spline',
+                    type: 'area',
                     backgroundColor: 'transparent',
                     animation: Highcharts.svg,
                 },
-                title: {
-                    text: 'Requests Per Second',
-                    style: { color: 'cyan' }
-                },
+                title: { text: '', style: { color: 'white' } },
                 xAxis: {
                     type: 'datetime',
                     tickPixelInterval: 150,
-                    labels: { style: { color: 'cyan' } }
+                    labels: { style: { color: 'white' } }
                 },
                 yAxis: {
-                    title: { text: 'Requests', style: { color: 'cyan' } },
+                    title: { text: 'Values', style: { color: 'white' } },
                     min: 0,
-                    labels: { style: { color: 'cyan' } },
-                    gridLineColor: 'rgba(0,255,255,0.2)'
+                    labels: { style: { color: 'white' } },
+                    gridLineColor: 'rgba(255,255,255,0.2)'
                 },
                 legend: { enabled: false },
                 series: [{
                     name: 'Requests',
                     data: [],
-                    color: 'cyan'
+                    color: 'red',
+                    fillOpacity: 0.2
                 }],
                 credits: { enabled: false }
-            });
+            });function updateChart() {
+            fetch('/api/request-count')
+                .then(res => res.json())
+                .then(data => {
+                    let x = (new Date()).getTime();
+                    let y = data.requestCount;
+                    chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 30);
+                })
+                .catch(err => console.error("Fetch error:", err));
+        }
 
-            function updateChart() {
-                fetch('/api/request-count')
-                    .then(res => res.json())
-                    .then(data => {
-                        let x = (new Date()).getTime();
-                        let y = data.requestCount;
-                        chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 20);
-                    })
-                    .catch(err => console.error("Fetch error:", err));
-            }
+        setInterval(updateChart, 1000);
+    });
+</script>
 
-            setInterval(updateChart, 1000);
-        });
-    </script>
 </body>
 </html>
