@@ -11,4 +11,4 @@ export default function handler(req, res) {
 setInterval(() => {
     console.log("🔄 Reset request count...");
     requestCount = 0;
-}, 60000);
+}, 120000);
